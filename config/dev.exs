@@ -36,8 +36,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :spreedly_airlines, SpreedlyAirlines.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "spreedlyair_dev",
+  password: "spreedlyair_pass",
   database: "spreedly_airlines_dev",
   hostname: "localhost",
   pool_size: 10

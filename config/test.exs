@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :spreedly_airlines, SpreedlyAirlines.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "spreedlyair_dev",
+  password: "spreedlyair_pass",
   database: "spreedly_airlines_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
