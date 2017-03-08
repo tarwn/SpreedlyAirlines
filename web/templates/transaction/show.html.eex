@@ -1,0 +1,32 @@
+<h2>Transaction Details</h2>
+
+<ul>
+
+  <li>
+    <strong>Flight:</strong>
+    <%= @booking.flight_id %> (<%= @flight.departure_airport%> to <%= @flight.arrival_airport %> at <%= @flight.departure_time %>)
+  </li>
+
+  <li>
+    <strong>Status message:</strong>
+    <%= @booking.status_message %>
+  </li>
+
+  <li>
+    <strong>Username:</strong>
+    <%= @booking.username %>
+  </li>
+
+  <li>
+    <strong>Amount:</strong>
+    <%= @booking.amount %>
+  </li>
+
+  <li>
+    <strong>Payment token:</strong>
+    <%= @booking.payment_token %>
+  </li>
+
+</ul>
+
+<%= link "Back", to: transaction_path(@conn, :index) %>

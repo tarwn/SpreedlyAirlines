@@ -1,0 +1,11 @@
+<h2>New booking</h2>
+
+From: <%= @flight.departure_airport %> at <%= @flight.departure_time %><br />
+To: <%= @flight.arrival_airport %> at <%= @flight.arrival_time %><br />
+
+
+<%= render "form.html", changeset: @changeset,
+                        action: booking_path(@conn, :create),
+                        flight: @flight %>
+
+<%= link "Back", to: flight_path(@conn, :show, @flight) %>

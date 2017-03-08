@@ -1,0 +1,72 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :username, class: "control-label" %>
+    <%= text_input f, :username, class: "form-control" %>
+    <%= error_tag f, :username %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :price, class: "control-label" %>
+    <span class="form-pseudo-textbox"><%= @flight.price %></span>
+    <%= hidden_input f, :amount, value: @flight.price, id: "sa-charged-amount" %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+
+  <%= hidden_input f, :payment_token, id: "sa-payment-token" %>
+  <%= hidden_input f, :flight_id %>
+  <%= hidden_input f, :status_message, id: "sa-status-message" %>
+
+<% end %>
+
+<script type="text/javascript">
+
+function App($){
+    var self = this;
+
+    self.registerProcessor = function registerProcessor(opts){
+      $(opts.paymentSubmit).submit(function(event){
+        // client-side validation for smoother experience (if defined)
+        if(opts.validate && !opts.validate()){
+          event.preventDefault();
+          return;
+        }
+
+        // if payment has not been processed yet, do that instead of saving to server
+        if($(opts.paymentToken).val() == ""){
+          event.preventDefault();
+
+          var result = processPayment(opts);
+          paymentComplete(opts, result);
+        }
+      });
+    };
+
+    function processPayment(opts){
+      // fake processing logic
+      var result = prompt("Enter the 'payment_token' we will treat as as successful");
+      return {
+        paymentToken: result,
+        status: "success"
+      };
+    };
+
+    function paymentComplete(opts, paymentResult){
+       $(opts.paymentStatus).val(JSON.stringify(paymentResult));
+       $(opts.paymentToken).val(paymentResult.paymentToken);
+       $(opts.paymentSubmit).submit();
+    };
+};
+
+var app = new App(jQuery);
+app.registerProcessor({ paymentSubmit: "form", paymentToken: "#sa-payment-token", paymentStatus: "#sa-status-message" });
+
+</script>

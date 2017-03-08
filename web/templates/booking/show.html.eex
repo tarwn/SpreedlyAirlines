@@ -1,0 +1,27 @@
+<h2>Booking Receipt</h2>
+
+<ul>
+
+  <li>
+    <strong>Flight:</strong>
+    <%= @booking.flight_id %>
+  </li>
+
+  <li>
+    <strong>Username:</strong>
+    <%= @booking.username %>
+  </li>
+
+  <li>
+    <strong>Amount:</strong>
+    <%= @booking.amount %>
+  </li>
+
+  <li>
+    <strong>Transaction Id:</strong>
+    <%= @booking.payment_token %>
+  </li>
+
+</ul>
+
+<%= link "Find another flight", to: flight_path(@conn, :index) %>

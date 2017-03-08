@@ -1,0 +1,30 @@
+<h2>Listing flights</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Departure airport</th>
+      <th>Arrival airport</th>
+      <th>Departure time</th>
+      <th>Arrival time</th>
+      <th>Price</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for flight <- @flights do %>
+    <tr>
+      <td><%= flight.departure_airport %></td>
+      <td><%= flight.arrival_airport %></td>
+      <td><%= flight.departure_time %></td>
+      <td><%= flight.arrival_time %></td>
+      <td><%= flight.price %></td>
+
+      <td class="text-right">
+        <%= link "Book", to: flight_path(@conn, :show, flight), class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

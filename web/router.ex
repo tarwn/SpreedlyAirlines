@@ -16,7 +16,14 @@ defmodule SpreedlyAirlines.Router do
   scope "/", SpreedlyAirlines do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", FlightController, :index
+    get "/flights/:id", FlightController, :show
+    get "/book/:flight_id", BookingController, :new
+    post "/book/", BookingController, :create
+    get "/receipt/:id", BookingController, :show
+
+    get "/log", TransactionController, :index
+    get "/log/:id", TransactionController, :show
   end
 
   # Other scopes may use custom stacks.

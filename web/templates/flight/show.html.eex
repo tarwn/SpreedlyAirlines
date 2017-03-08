@@ -1,0 +1,33 @@
+<h2>Flight Details: <%= @flight.departure_time %> <%= @flight.departure_airport %> to <%= @flight.arrival_airport %></h2>
+
+<ul>
+
+  <li>
+    <strong>Departure airport:</strong>
+    <%= @flight.departure_airport %>
+  </li>
+
+  <li>
+    <strong>Arrival airport:</strong>
+    <%= @flight.arrival_airport %>
+  </li>
+
+  <li>
+    <strong>Departure time:</strong>
+    <%= @flight.departure_time %>
+  </li>
+
+  <li>
+    <strong>Arrival time:</strong>
+    <%= @flight.arrival_time %>
+  </li>
+
+  <li>
+    <strong>Price:</strong>
+    <%= @flight.price %>
+  </li>
+
+</ul>
+<%= link "Book It!", to: booking_path(@conn, :new, @flight), class: "btn btn-default" %><br />
+<br />
+<%= link "Back", to: flight_path(@conn, :index) %>
