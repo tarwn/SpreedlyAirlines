@@ -29,11 +29,11 @@
 
 <script type="text/javascript">
 
-function App($){
+function App($, SpreedlyExpress, spreedlyToken){
     var self = this;
 
     self.registerProcessor = function registerProcessor(opts){
-      $(opts.paymentSubmit).submit(function(event){
+      $(opts.paymentFormSelector).submit(function(event){
         // client-side validation for smoother experience (if defined)
         if(opts.validate && !opts.validate()){
           event.preventDefault();
@@ -41,32 +41,42 @@ function App($){
         }
 
         // if payment has not been processed yet, do that instead of saving to server
-        if($(opts.paymentToken).val() == ""){
+        if($(opts.paymentTokenSelector).val() == ""){
           event.preventDefault();
 
-          var result = processPayment(opts);
-          paymentComplete(opts, result);
+          processPayment(opts);
         }
       });
     };
 
     function processPayment(opts){
-      // fake processing logic
-      var result = prompt("Enter the 'payment_token' we will treat as as successful");
-      return {
-        paymentToken: result,
-        status: "success"
-      };
-    };
+      // "real" processing logic - https://docs.spreedly.com/basics/payment-method/
+      SpreedlyExpress.init(spreedlyToken, {
+        "amount": opts.amount,
+        "company_name": opts.companyName
+      });
 
-    function paymentComplete(opts, paymentResult){
-       $(opts.paymentStatus).val(JSON.stringify(paymentResult));
-       $(opts.paymentToken).val(paymentResult.paymentToken);
-       $(opts.paymentSubmit).submit();
+      SpreedlyExpress.openView();
+
+      SpreedlyExpress.onPaymentMethod(function(token, paymentMethod){
+        $(opts.paymentTokenSelector).val(token);
+        $(opts.paymentStatusSelector).val(JSON.stringify(paymentMethod));
+        $(opts.paymentFormSelector).submit();
+      });
     };
 };
 
-var app = new App(jQuery);
-app.registerProcessor({ paymentSubmit: "form", paymentToken: "#sa-payment-token", paymentStatus: "#sa-status-message" });
+$().ready(function(){
+  var app = new App(jQuery, SpreedlyExpress, "NlhD19h3k4etrJ9xFeXfe4AMN1b");
+  app.registerProcessor({
+    amount: <%= @flight.price %>,
+    companyName: "Spreedly Air",
+    paymentFormSelector: "form",
+    paymentTokenSelector: "#sa-payment-token",
+    paymentStatusSelector: "#sa-status-message"
+  });
+});
 
 </script>
+
+<script src="http://core.spreedly.dev/iframe/express-2.min.js"></script>

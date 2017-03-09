@@ -13,6 +13,9 @@ defmodule SpreedlyAirlines.BookingController do
   def create(conn, %{"booking" => booking_params}) do
     changeset = Booking.changeset(%Booking{}, booking_params)
 
+    # temporary
+    SpreedlyAirlines.SpreedlyApi.purchase(changeset.data.payment_token, changeset.data.amount, "USD", false)
+
     case Repo.insert(changeset) do
       {:ok, booking} ->
         conn
