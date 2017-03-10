@@ -4,9 +4,10 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
+  <%= error_tag f, :base %>
 
   <div class="form-group">
-    <%= label f, :username, class: "control-label" %>
+    <%= label f, :username, id: "sa-username", class: "control-label" %>
     <%= text_input f, :username, class: "form-control" %>
     <%= error_tag f, :username %>
   </div>
@@ -44,6 +45,9 @@ function App($, SpreedlyExpress, spreedlyToken){
         if($(opts.paymentTokenSelector).val() == ""){
           event.preventDefault();
 
+          if(opts.onProcessPayment)
+            opts.onProcessPayment();
+
           processPayment(opts);
         }
       });
@@ -73,8 +77,16 @@ $().ready(function(){
     companyName: "Spreedly Air",
     paymentFormSelector: "form",
     paymentTokenSelector: "#sa-payment-token",
-    paymentStatusSelector: "#sa-status-message"
+    paymentStatusSelector: "#sa-status-message",
+
+    validate: function(){
+      return true;
+    },
+    onProcessPayment: function(){
+      $("input[type=submit]").prop("disabled", true);
+    }
   });
+  $("#sa-username").focus();
 });
 
 </script>

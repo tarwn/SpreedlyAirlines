@@ -14,8 +14,6 @@ defmodule SpreedlyAirlines do
       supervisor(SpreedlyAirlines.Endpoint, []),
       # Start your own worker by calling: SpreedlyAirlines.Worker.start_link(arg1, arg2, arg3)
       # worker(SpreedlyAirlines.Worker, [arg1, arg2, arg3]),
-
-      #supervisor(SpreedlyAirlines.SpreedlyApi, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
