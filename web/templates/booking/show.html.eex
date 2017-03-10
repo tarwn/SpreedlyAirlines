@@ -18,8 +18,13 @@
   </li>
 
   <li>
+    <strong>Credit Card:</strong>
+    <%= @booking.purchase_payment_method_number %>
+  </li>
+
+  <li>
     <strong>Transaction Id:</strong>
-    <%= @booking.payment_token %>
+    <%= @booking.purchase_gateway_transaction_id %>
   </li>
 
 </ul>

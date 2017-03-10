@@ -8,7 +8,8 @@
       <th>Status message</th>
       <th>Username</th>
       <th>Amount</th>
-      <th>Payment token</th>
+      <th>Purchase Succeeded</th>
+      <th>Purchase At</th>
 
       <th></th>
     </tr>
@@ -21,7 +22,8 @@
       <td><%= booking.status_message %></td>
       <td><%= booking.username %></td>
       <td><%= booking.amount %></td>
-      <td><%= booking.payment_token %></td>
+      <td><%= booking.purchase_succeeded %></td>
+      <td><%= booking.purchase_at %></td>
 
       <td class="text-right">
         <%= link "Show", to: transaction_path(@conn, :show, booking), class: "btn btn-default btn-xs" %>

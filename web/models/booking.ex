@@ -6,6 +6,12 @@ defmodule SpreedlyAirlines.Booking do
     field :username, :string
     field :amount, :float
     field :payment_token, :string
+    field :purchase_gateway_transaction_id, :string
+    field :purchase_succeeded, :boolean
+    field :purchase_at, :utc_datetime
+    field :purchase_payment_method_token, :string
+    field :purchase_payment_method_number, :string
+
     belongs_to :flight, SpreedlyAirlines.Flight
 
     timestamps()
@@ -16,7 +22,9 @@ defmodule SpreedlyAirlines.Booking do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:status_message, :username, :amount, :payment_token, :flight_id])
+    |> cast(params, [:status_message, :username, :amount, :payment_token, :purchase_gateway_transaction_id,
+                     :flight_id, :purchase_succeeded, :purchase_at, :purchase_payment_method_token,
+                     :purchase_payment_method_number])
     |> validate_required([:status_message, :username, :amount, :payment_token, :flight_id])
   end
 end

@@ -56,7 +56,15 @@ defmodule SpreedlyAirlines.BookingController do
   end
 
   defp save_purchase_details(booking, purchase_details) do
-    changeset = Booking.changeset(booking, {})
+    changeset = Booking.changeset(booking, %{
+      status_message: "purchased",
+      purchase_gateway_transaction_id: purchase_details["transaction"]["gateway_transaction_id"],
+      purchase_succeeded: purchase_details["transaction"]["succeeded"],
+      #purchase_at: Ecto.DateTime.cast!(purchase_details["transaction"]["updated_at"]),
+      purchase_payment_method_token: purchase_details["transaction"]["payment_method"]["token"],
+      purchase_payment_method_number: purchase_details["transaction"]["payment_method"]["number"]
+    })
+    IO.inspect(purchase_details)
     case Repo.update(changeset) do
       {:ok, _} -> {:ok}
       {:error, changeset} ->

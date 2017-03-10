@@ -70,7 +70,7 @@ function App($, SpreedlyExpress, spreedlyToken){
 
       SpreedlyExpress.onPaymentMethod(function(token, paymentMethod){
         $(opts.paymentTokenSelector).val(token);
-        $(opts.paymentStatusSelector).val(JSON.stringify(paymentMethod));
+        $(opts.paymentStatusSelector).val("Payment Method Captured, Purchase Pending");
         $(opts.paymentFormSelector).submit();
       });
     };

@@ -22,7 +22,7 @@ defmodule SpreedlyAirlines.SpreedlyApi do
     message = %{
       transaction: %{
         payment_method_token: payment_method_token,
-        amount: amount,
+        amount: amount * 100,
         currency_code: currency_code,
         retain_on_success: retain_on_success
       }

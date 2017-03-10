@@ -27,6 +27,31 @@
     <%= @booking.payment_token %>
   </li>
 
+  <li>
+    <strong>Purchase Success?</strong>
+    <%= @booking.purchase_succeeded %>
+  </li>
+
+  <li>
+    <strong>Purchase Date:</strong>
+    <%= @booking.purchase_at %>
+  </li>
+
+  <li>
+    <strong>Purchase Number:</strong>
+    <%= @booking.purchase_payment_method_number %>
+  </li>
+
+  <li>
+    <strong>Purchase Gateway Transaction Id:</strong>
+    <%= @booking.purchase_gateway_transaction_id %>
+  </li>
+
+  <li>
+    <strong>Purchase Payment Method Token:</strong>
+    <%= @booking.purchase_payment_method_token %>
+  </li>
+
 </ul>
 
 <%= link "Back", to: transaction_path(@conn, :index) %>
