@@ -19,7 +19,13 @@
   </div>
 
   <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+    <%=
+      if @changeset.action == :purchase_failed do
+        submit "Submit", class: "btn btn-primary", disabled: "disabled"
+      else
+        submit "Submit", class: "btn btn-primary"
+      end
+    %>
   </div>
 
   <%= hidden_input f, :payment_token, id: "sa-payment-token" %>

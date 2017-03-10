@@ -25,7 +25,7 @@ defmodule SpreedlyAirlines.BookingController do
         render(conn, "new.html", changeset: changeset, flight: flight)
       {:error, booking, error_message} ->
         changeset = Booking.changeset(booking)
-        changeset = %{ Ecto.Changeset.add_error(changeset, :base, error_message) | action: :receipt }
+        changeset = %{ Ecto.Changeset.add_error(changeset, :base, error_message) | action: :purchase_failed }
         flight = Repo.get!(Flight, booking_params["flight_id"])
         render(conn, "new.html", changeset: changeset, flight: flight)
     end
