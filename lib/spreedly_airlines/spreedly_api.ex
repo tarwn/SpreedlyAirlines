@@ -2,15 +2,21 @@ defmodule SpreedlyAirlines.SpreedlyApi do
   require Logger
 
   @url "https://core.spreedly.com/v1/"
-  @gateway_token "LlkjmEk0xNkcWrNixXa1fvNoTP4"
+  @gateway_token "RK4tfOvCLG7X15BrApL02VyB6lu"
   @environment_key "NlhD19h3k4etrJ9xFeXfe4AMN1b"
   @api_secret "NTOqEZEhiuAoWO4RH1dZXDg14k8aykbSjDSp7XPthKIxkubog5ptn79L4w2S4sT6"
 
   def purchase(payment_method_token, amount, currency_code, retain_on_success) do
     url = @url <> "gateways/" <> @gateway_token <> "/purchase.json"
-    headers = [{"Accept", "application/json"}]
+    headers = [
+      {"Accept", "application/json"},
+      {"Content-Type", "application/json"}
+    ]
     options = [
-      [hackney: [basic_auth: {@environment_key, @api_secret}]]
+      hackney: [basic_auth: {@environment_key, @api_secret}],
+      #-- for manual debugging
+      #proxy: "localhost:8888",
+      #ssl: [verify: :verify_none]
     ]
 
     message = %{
