@@ -20,6 +20,7 @@ defmodule SpreedlyAirlines.Router do
     get "/flights/:id", FlightController, :show
     get "/book/:flight_id", BookingController, :new
     post "/book/", BookingController, :create
+    put "/book/", BookingController, :create      # this is on purpose, every additional attempt is logged as a new transaction
     get "/receipt/:id", BookingController, :show
 
     get "/log", TransactionController, :index

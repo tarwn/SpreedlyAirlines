@@ -32,6 +32,8 @@ defmodule SpreedlyAirlines.SpreedlyApi do
     case HTTPoison.post(url, body, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: response_body}} ->
         {:ok, Poison.decode!(response_body) }
+      {:ok, %HTTPoison.Response{status_code: 422, body: response_body}} ->
+          {:api_error, Poison.decode!(response_body) }
       {:ok, %HTTPoison.Response{status_code: 401, body: response_body}} ->
         response = Poison.decode!(response_body)
         [first_error|_] = response["errors"]

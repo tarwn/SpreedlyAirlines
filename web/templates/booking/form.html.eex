@@ -1,10 +1,10 @@
 <%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
+  <%=
+    if @changeset.action do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+      <p><%= error_summary(@changeset) %> </p>
     </div>
   <% end %>
-  <%= error_tag f, :base %>
 
   <div class="form-group">
     <%= label f, :username, id: "sa-username", class: "control-label" %>
@@ -19,18 +19,24 @@
   </div>
 
   <div class="form-group">
-    <%=
-      if @changeset.action == :purchase_failed do
-        submit "Submit", class: "btn btn-primary", disabled: "disabled"
-      else
-        submit "Submit", class: "btn btn-primary"
-      end
-    %>
+    <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 
-  <%= hidden_input f, :payment_token, id: "sa-payment-token" %>
   <%= hidden_input f, :flight_id %>
-  <%= hidden_input f, :status_message, id: "sa-status-message" %>
+  <%=
+    if @changeset.action == :purchase_failed do
+      hidden_input f, :status_message, value: "", id: "sa-status-message"
+    else
+      hidden_input f, :status_message, id: "sa-status-message"
+    end
+  %>
+  <%=
+    if @changeset.action == :purchase_failed do
+      hidden_input f, :payment_token, value: "", id: "sa-payment-token"
+    else
+      hidden_input f, :payment_token, id: "sa-payment-token"
+    end
+  %>
 
 <% end %>
 
