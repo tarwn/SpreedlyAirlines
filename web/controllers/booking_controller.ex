@@ -20,8 +20,8 @@ defmodule SpreedlyAirlines.BookingController do
            |> redirect(to: booking_path(conn, :show, booking.id))
     else
       {:error, changeset} ->
-          flight = Repo.get!(Flight, booking_params["flight_id"])
-          render(conn, "new.html", changeset: changeset, flight: flight)
+        flight = Repo.get!(Flight, booking_params["flight_id"])
+        render(conn, "new.html", changeset: changeset, flight: flight)
       {:api_error, booking, error_message} ->
         {:ok, changeset} = save_purchase_error(booking, error_message)
         changeset = %{ Ecto.Changeset.add_error(changeset, :base, error_message) | action: :purchase_failed }
@@ -42,6 +42,8 @@ defmodule SpreedlyAirlines.BookingController do
 
   defp save_initial_booking(booking_params)  do
     changeset = Booking.changeset(%Booking{}, booking_params)
+    IO.inspect changeset
+    IO.inspect booking_params
 
     case Repo.insert(changeset) do
       {:ok, booking} -> {:ok, booking}
@@ -50,7 +52,7 @@ defmodule SpreedlyAirlines.BookingController do
   end
 
   defp charge_for_booking(booking) do
-    case SpreedlyAirlines.SpreedlyApi.purchase(booking.payment_token, booking.amount, "USD", false) do
+    case SpreedlyAirlines.SpreedlyApi.purchase(booking.payment_token, booking.amount, "USD", booking.retain_cc) do
       {:ok, response} ->
         {:ok, response}
       {:api_error, _error_details} ->

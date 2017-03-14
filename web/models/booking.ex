@@ -5,6 +5,7 @@ defmodule SpreedlyAirlines.Booking do
     field :status_message, :string
     field :username, :string
     field :amount, :float
+    field :retain_cc, :boolean
     field :payment_token, :string
     field :purchase_gateway_transaction_id, :string
     field :purchase_succeeded, :boolean
@@ -22,9 +23,9 @@ defmodule SpreedlyAirlines.Booking do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:status_message, :username, :amount, :payment_token, :purchase_gateway_transaction_id,
+    |> cast(params, [:status_message, :username, :amount, :retain_cc, :payment_token, :purchase_gateway_transaction_id,
                      :flight_id, :purchase_succeeded, :purchase_at, :purchase_payment_method_token,
                      :purchase_payment_method_number])
-    |> validate_required([:status_message, :username, :amount, :payment_token, :flight_id])
+    |> validate_required([:status_message, :username, :amount, :retain_cc, :payment_token, :flight_id])
   end
 end

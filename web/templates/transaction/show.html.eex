@@ -28,6 +28,11 @@
   </li>
 
   <li>
+    <strong>CC Retained:</strong>
+    <%= @booking.retain_cc %>
+  </li>
+
+  <li>
     <strong>Purchase Success?</strong>
     <%= @booking.purchase_succeeded %>
   </li>

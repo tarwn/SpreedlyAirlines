@@ -19,6 +19,11 @@
   </div>
 
   <div class="form-group">
+    <%= checkbox f, :retain_cc %>
+    <%= label f, :retain_cc, "Save credit card for future purchases", class: "control-label" %>
+  </div>
+
+  <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 
@@ -37,6 +42,7 @@
       hidden_input f, :payment_token, id: "sa-payment-token"
     end
   %>
+
 
 <% end %>
 
