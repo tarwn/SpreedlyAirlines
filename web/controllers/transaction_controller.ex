@@ -5,7 +5,8 @@ defmodule SpreedlyAirlines.TransactionController do
   alias SpreedlyAirlines.Flight
 
   def index(conn, _params) do
-    bookings = Repo.all(Booking)
+    query = from Booking, order_by: [desc: :id]
+    bookings = Repo.all(query)
     render(conn, "index.html", bookings: bookings)
   end
 
