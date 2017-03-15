@@ -1,5 +1,6 @@
 defmodule SpreedlyAirlines.Booking do
   use SpreedlyAirlines.Web, :model
+  import Number.Currency
 
   schema "bookings" do
     field :status_message, :string
@@ -28,4 +29,7 @@ defmodule SpreedlyAirlines.Booking do
                      :purchase_payment_method_number])
     |> validate_required([:status_message, :username, :amount, :retain_cc, :payment_token, :flight_id])
   end
+
+  def formatted_price(%SpreedlyAirlines.Booking{amount: price}), do: number_to_currency(price)
+
 end

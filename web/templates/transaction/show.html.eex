@@ -19,7 +19,7 @@
 
   <li>
     <strong>Amount:</strong>
-    <%= @booking.amount %>
+    <%= SpreedlyAirlines.Booking.formatted_price(@booking) %>
   </li>
 
   <li>

@@ -14,7 +14,7 @@
 
   <div class="form-group">
     <%= label f, :price, class: "control-label" %>
-    <span class="form-pseudo-textbox"><%= @flight.price %></span>
+    <span class="form-pseudo-textbox"><%= SpreedlyAirlines.Flight.formatted_price(@flight) %></span>
     <%= hidden_input f, :amount, value: @flight.price, id: "sa-charged-amount" %>
   </div>
 
@@ -91,7 +91,7 @@ function App($, SpreedlyExpress, spreedlyToken){
 $().ready(function(){
   var app = new App(jQuery, SpreedlyExpress, "NlhD19h3k4etrJ9xFeXfe4AMN1b");
   app.registerProcessor({
-    amount: <%= @flight.price %>,
+    amount: "<%= SpreedlyAirlines.Flight.formatted_price(@flight) %>",
     companyName: "Spreedly Air",
     paymentFormSelector: "form",
     paymentTokenSelector: "#sa-payment-token",

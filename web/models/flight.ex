@@ -1,5 +1,6 @@
 defmodule SpreedlyAirlines.Flight do
   use SpreedlyAirlines.Web, :model
+  import Number.Currency
 
   schema "flights" do
     field :departure_airport, :string
@@ -19,4 +20,6 @@ defmodule SpreedlyAirlines.Flight do
     |> cast(params, [:departure_airport, :arrival_airport, :departure_time, :arrival_time, :price])
     |> validate_required([:departure_airport, :arrival_airport, :departure_time, :arrival_time, :price])
   end
+
+  def formatted_price(%SpreedlyAirlines.Flight{price: price}), do: number_to_currency(price)
 end

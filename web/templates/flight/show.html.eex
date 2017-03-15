@@ -24,7 +24,7 @@
 
   <li>
     <strong>Price:</strong>
-    <%= @flight.price %>
+    <%= SpreedlyAirlines.Flight.formatted_price(@flight) %>
   </li>
 
 </ul>

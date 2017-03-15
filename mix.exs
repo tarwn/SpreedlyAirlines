@@ -19,7 +19,7 @@ defmodule SpreedlyAirlines.Mixfile do
   def application do
     [mod: {SpreedlyAirlines, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpoison]]
+                    :phoenix_ecto, :postgrex, :httpoison, :number]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,7 +38,8 @@ defmodule SpreedlyAirlines.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
-     {:httpoison, "~> 0.11.1"}]
+     {:httpoison, "~> 0.11.1"},
+     {:number, "~> 0.5.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
