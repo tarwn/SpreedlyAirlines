@@ -1,5 +1,6 @@
 defmodule SpreedlyAirlines.BookingController do
   use SpreedlyAirlines.Web, :controller
+  import Logger
 
   alias SpreedlyAirlines.Booking
   alias SpreedlyAirlines.Flight
@@ -15,23 +16,19 @@ defmodule SpreedlyAirlines.BookingController do
          {:ok, purchase_details} <- charge_for_booking(booking),
          {:ok} <- save_purchase_details(booking, purchase_details)
     do
-           conn
-           |> put_flash(:info, "Flight booked successfully.")
-           |> redirect(to: booking_path(conn, :show, booking.id))
+       conn
+       |> put_flash(:info, "Flight booked successfully.")
+       |> redirect(to: booking_path(conn, :show, booking.id))
     else
-      {:error, changeset} ->
-        flight = Repo.get!(Flight, booking_params["flight_id"])
-        render(conn, "new.html", changeset: changeset, flight: flight)
+      {:error, changeset} -> redisplay_form(conn, changeset, booking_params["flight_id"])
       {:api_error, booking, error_message} ->
         {:ok, changeset} = save_purchase_error(booking, error_message)
         changeset = %{ Ecto.Changeset.add_error(changeset, :base, error_message) | action: :purchase_failed }
-        flight = Repo.get!(Flight, booking_params["flight_id"])
-        render(conn, "new.html", changeset: changeset, flight: flight)
+        redisplay_form(conn, changeset, booking_params["flight_id"])
       {:error, booking, error_message} ->
         changeset = Booking.changeset(booking)
         changeset = %{ Ecto.Changeset.add_error(changeset, :base, error_message) | action: :purchase_failed }
-        flight = Repo.get!(Flight, booking_params["flight_id"])
-        render(conn, "new.html", changeset: changeset, flight: flight)
+        redisplay_form(conn, changeset, booking_params["flight_id"])
     end
   end
 
@@ -42,8 +39,6 @@ defmodule SpreedlyAirlines.BookingController do
 
   defp save_initial_booking(booking_params)  do
     changeset = Booking.changeset(%Booking{}, booking_params)
-    IO.inspect changeset
-    IO.inspect booking_params
 
     case Repo.insert(changeset) do
       {:ok, booking} -> {:ok, booking}
@@ -69,7 +64,7 @@ defmodule SpreedlyAirlines.BookingController do
       status_message: "Payment Method Captured, Purchase Successful",
       purchase_gateway_transaction_id: purchase_details["transaction"]["gateway_transaction_id"],
       purchase_succeeded: purchase_details["transaction"]["succeeded"],
-      #purchase_at: Ecto.DateTime.cast!(purchase_details["transaction"]["updated_at"]),
+      purchase_at: purchase_details["transaction"]["updated_at"] |> NaiveDateTime.from_iso8601!,
       purchase_payment_method_token: purchase_details["transaction"]["payment_method"]["token"],
       purchase_payment_method_number: purchase_details["transaction"]["payment_method"]["number"]
     })
@@ -77,7 +72,10 @@ defmodule SpreedlyAirlines.BookingController do
     case Repo.update(changeset) do
       {:ok, _} -> {:ok}
       {:error, changeset} ->
-        Ecto.Changeset.add_error(changeset, :base, "Your purchase was successful, but an error occurred while preparing the receipt.")
+        Logger.error inspect(changeset.errors)
+        changeset = Ecto.Changeset.add_error(changeset, :base, "Your purchase was successful, but an error occurred while preparing the receipt.")
+        IO.inspect changeset
+        IO.inspect Ecto.DateTime.cast!(purchase_details["transaction"]["updated_at"])
         {:error, changeset}
     end
 
@@ -98,5 +96,11 @@ defmodule SpreedlyAirlines.BookingController do
     end
 
   end
+
+  defp redisplay_form(conn, changeset, flight_id) do
+    flight = Repo.get!(Flight, flight_id)
+    render(conn, "new.html", changeset: changeset, flight: flight)
+  end
+
 
 end

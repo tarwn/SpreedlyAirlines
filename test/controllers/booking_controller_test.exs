@@ -7,7 +7,7 @@ defmodule SpreedlyAirlines.BookingControllerTest do
 
   test "renders form for new resources", %{conn: conn} do
     #TODO how do I add an object or flight id here?
-    conn = get conn, booking_path(conn, :new)
+    conn = get conn, booking_path(conn, :new, 1)
     assert html_response(conn, 200) =~ "New booking"
   end
 
@@ -26,7 +26,7 @@ defmodule SpreedlyAirlines.BookingControllerTest do
   test "shows chosen resource", %{conn: conn} do
     booking = Repo.insert! %Booking{}
     conn = get conn, booking_path(conn, :show, booking)
-    assert html_response(conn, 200) =~ "Show booking"
+    assert html_response(conn, 200) =~ "Flight details:"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
