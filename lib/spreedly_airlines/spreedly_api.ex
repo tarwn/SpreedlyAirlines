@@ -1,9 +1,17 @@
 defmodule SpreedlyAirlines.SpreedlyApi do
+  @moduledoc """
+  Purchase operations against the Spreedly API
+
+  https://docs.spreedly.com/reference/api/v1/
+  """
+
   require Logger
 
   @url "https://core.spreedly.com/v1/"
   @gateway_token "RK4tfOvCLG7X15BrApL02VyB6lu"
   @environment_key "NlhD19h3k4etrJ9xFeXfe4AMN1b"
+
+  #this API secret is no longer valid
   @api_secret "NTOqEZEhiuAoWO4RH1dZXDg14k8aykbSjDSp7XPthKIxkubog5ptn79L4w2S4sT6"
 
   @expedia_token "62YlGZC6TfBVyS71uBDdpE4AX75"
@@ -33,9 +41,9 @@ defmodule SpreedlyAirlines.SpreedlyApi do
 
     case HTTPoison.post(url, body, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: response_body}} ->
-        {:ok, Poison.decode!(response_body) }
+        {:ok, Poison.decode!(response_body)}
       {:ok, %HTTPoison.Response{status_code: 422, body: response_body}} ->
-          {:api_error, Poison.decode!(response_body) }
+          {:api_error, Poison.decode!(response_body)}
       {:ok, %HTTPoison.Response{status_code: 401, body: response_body}} ->
         response = Poison.decode!(response_body)
         [first_error|_] = response["errors"]
@@ -44,7 +52,6 @@ defmodule SpreedlyAirlines.SpreedlyApi do
       {:error, %HTTPoison.Error{reason: reason}} ->
         Logger.error "Spreedly API returned an error"
         Logger.debug inspect(reason)
-        IO.inspect reason
         {:error, reason}
     end
   end
@@ -75,9 +82,9 @@ defmodule SpreedlyAirlines.SpreedlyApi do
 
     case HTTPoison.post(url, body, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: response_body}} ->
-        {:ok, Poison.decode!(response_body) }
+        {:ok, Poison.decode!(response_body)}
       {:ok, %HTTPoison.Response{status_code: 422, body: response_body}} ->
-          {:api_error, Poison.decode!(response_body) }
+          {:api_error, Poison.decode!(response_body)}
       {:ok, %HTTPoison.Response{status_code: 401, body: response_body}} ->
         response = Poison.decode!(response_body)
         [first_error|_] = response["errors"]
@@ -86,7 +93,6 @@ defmodule SpreedlyAirlines.SpreedlyApi do
       {:error, %HTTPoison.Error{reason: reason}} ->
         Logger.error "Spreedly API returned an error"
         Logger.debug inspect(reason)
-        IO.inspect reason
         {:error, reason}
     end
   end

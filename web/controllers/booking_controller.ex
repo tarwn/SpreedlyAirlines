@@ -6,7 +6,7 @@ defmodule SpreedlyAirlines.BookingController do
   alias SpreedlyAirlines.Flight
 
   def new(conn, %{"flight_id" => flight_id}) do
-    changeset = Booking.changeset(%Booking{ flight_id: flight_id })
+    changeset = Booking.changeset(%Booking{flight_id: flight_id})
     flight = Repo.get!(Flight, flight_id)
     render(conn, "new.html", changeset: changeset, flight: flight)
   end
@@ -23,11 +23,11 @@ defmodule SpreedlyAirlines.BookingController do
       {:error, changeset} -> redisplay_form(conn, changeset, booking_params["flight_id"])
       {:api_error, booking, error_message} ->
         {:ok, changeset} = save_purchase_error(booking, error_message)
-        changeset = %{ Ecto.Changeset.add_error(changeset, :base, error_message) | action: :purchase_failed }
+        changeset = %{Ecto.Changeset.add_error(changeset, :base, error_message) | action: :purchase_failed}
         redisplay_form(conn, changeset, booking_params["flight_id"])
       {:error, booking, error_message} ->
         changeset = Booking.changeset(booking)
-        changeset = %{ Ecto.Changeset.add_error(changeset, :base, error_message) | action: :purchase_failed }
+        changeset = %{Ecto.Changeset.add_error(changeset, :base, error_message) | action: :purchase_failed}
         redisplay_form(conn, changeset, booking_params["flight_id"])
     end
   end
@@ -43,7 +43,7 @@ defmodule SpreedlyAirlines.BookingController do
 
     case Repo.insert(changeset) do
       {:ok, booking} -> {:ok, booking}
-      {:error, changeset} -> {:error, changeset }
+      {:error, changeset} -> {:error, changeset}
     end
   end
 
@@ -68,7 +68,6 @@ defmodule SpreedlyAirlines.BookingController do
   defp perform_charge(booking, vendor) when vendor != "" do
     case SpreedlyAirlines.SpreedlyApi.deliver_payment(booking.payment_token, booking.amount) do
       {:ok, response} ->
-        IO.inspect response
         {:ok, response}
       {:api_error, _error_details} ->
         #todo: expand this to provide more detail if a known good, human readable error comes back from Spreedly
@@ -94,8 +93,6 @@ defmodule SpreedlyAirlines.BookingController do
       {:error, changeset} ->
         Logger.error inspect(changeset.errors)
         changeset = Ecto.Changeset.add_error(changeset, :base, "Your purchase was successful, but an error occurred while preparing the receipt.")
-        IO.inspect changeset
-        IO.inspect Ecto.DateTime.cast!(purchase_details["transaction"]["updated_at"])
         {:error, changeset}
     end
 

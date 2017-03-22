@@ -1,4 +1,8 @@
 defmodule SpreedlyAirlines.Booking do
+  @moduledoc """
+  A Booking is an attempt to purchase a flight or an in progress purchase.
+  """
+
   use SpreedlyAirlines.Web, :model
   import Number.Currency
 

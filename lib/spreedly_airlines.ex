@@ -1,4 +1,9 @@
 defmodule SpreedlyAirlines do
+  @moduledoc """
+  Sample "Spreedly Airlines" application to execute Sample
+  purchases against a test environment in Spreedly
+  """
+
   use Application
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html

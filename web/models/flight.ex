@@ -1,4 +1,8 @@
 defmodule SpreedlyAirlines.Flight do
+  @moduledoc """
+  A defined Flight one can purchase
+  """
+
   use SpreedlyAirlines.Web, :model
   import Number.Currency
 
