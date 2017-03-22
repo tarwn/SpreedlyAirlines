@@ -37,11 +37,19 @@ Repo.insert! %Flight{
   price: 400.0
 }
 
-
 Repo.insert! %Flight{
   departure_airport: "ABQ",
   departure_time: %Ecto.Time{ hour: 12, min: 15, sec: 0 },
   arrival_airport: "ATL",
   arrival_time: %Ecto.Time{ hour: 20, min: 45, sec: 0 },
   price: 574.0
+}
+
+Repo.insert! %Flight{
+  departure_airport: "RDU",
+  departure_time: %Ecto.Time{ hour: 12, min: 20, sec: 0 },
+  arrival_airport: "BOS",
+  arrival_time: %Ecto.Time{ hour: 14, min: 0, sec: 0 },
+  price: 109.99,
+  vendor: "Expedia"
 }

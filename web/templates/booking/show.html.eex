@@ -4,8 +4,9 @@
 
   <li>
     <strong>Flight:</strong>
-    <%= @booking.flight_id %>
-  </li>
+      <%= @flight.departure_airport %> to <%= @flight.arrival_airport %> at <%= @flight.departure_time %><br />
+      <%= SpreedlyAirlines.Flight.display_vendor(@flight) %>
+ </li>
 
   <li>
     <strong>Username:</strong>

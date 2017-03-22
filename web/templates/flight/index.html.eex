@@ -8,6 +8,7 @@
       <th>Departure time</th>
       <th>Arrival time</th>
       <th>Price</th>
+      <th></th>
 
       <th></th>
     </tr>
@@ -20,6 +21,7 @@
       <td><%= flight.departure_time %></td>
       <td><%= flight.arrival_time %></td>
       <td><%= SpreedlyAirlines.Flight.formatted_price(flight) %></td>
+      <td><%= SpreedlyAirlines.Flight.display_vendor(flight) %></td>
 
       <td class="text-right">
         <%= link "Book", to: flight_path(@conn, :show, flight), class: "btn btn-default btn-xs" %>

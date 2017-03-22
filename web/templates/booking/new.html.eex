@@ -2,7 +2,7 @@
 
 From: <%= @flight.departure_airport %> at <%= @flight.departure_time %><br />
 To: <%= @flight.arrival_airport %> at <%= @flight.arrival_time %><br />
-
+<%= SpreedlyAirlines.Flight.display_vendor(@flight) %><br />
 
 <%= render "form.html", changeset: @changeset,
                         action: booking_path(@conn, :create),

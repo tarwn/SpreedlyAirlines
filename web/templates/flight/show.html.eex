@@ -25,6 +25,7 @@
   <li>
     <strong>Price:</strong>
     <%= SpreedlyAirlines.Flight.formatted_price(@flight) %>
+    <%= SpreedlyAirlines.Flight.display_vendor(@flight) %>
   </li>
 
 </ul>

@@ -1,6 +1,6 @@
 defmodule SpreedlyAirlines.BookingController do
   use SpreedlyAirlines.Web, :controller
-  import Logger
+  require Logger
 
   alias SpreedlyAirlines.Booking
   alias SpreedlyAirlines.Flight
@@ -34,7 +34,8 @@ defmodule SpreedlyAirlines.BookingController do
 
   def show(conn, %{"id" => id}) do
     booking = Repo.get!(Booking, id)
-    render(conn, "show.html", booking: booking)
+    flight = Repo.get!(Flight, booking.flight_id)
+    render(conn, "show.html", booking: booking, flight: flight)
   end
 
   defp save_initial_booking(booking_params)  do
@@ -47,8 +48,27 @@ defmodule SpreedlyAirlines.BookingController do
   end
 
   defp charge_for_booking(booking) do
+    flight = Repo.get!(Flight, booking.flight_id)
+    perform_charge(booking, flight.vendor)
+  end
+
+  defp perform_charge(booking, vendor) when vendor == "" or is_nil(vendor) do
     case SpreedlyAirlines.SpreedlyApi.purchase(booking.payment_token, booking.amount, "USD", booking.retain_cc) do
       {:ok, response} ->
+        {:ok, response}
+      {:api_error, _error_details} ->
+        #todo: expand this to provide more detail if a known good, human readable error comes back from Spreedly
+        {:api_error, booking, "We couldn't process the provided credit card, please try another or contact us at 555-555-5555."}
+      {:error, _error} ->
+        #todo: expand this to provide more detail if a known good, humand readable error comes back from Spreedly
+        {:error, booking, "An error occurred while performing your purchase."}
+    end
+  end
+
+  defp perform_charge(booking, vendor) when vendor != "" do
+    case SpreedlyAirlines.SpreedlyApi.deliver_payment(booking.payment_token, booking.amount) do
+      {:ok, response} ->
+        IO.inspect response
         {:ok, response}
       {:api_error, _error_details} ->
         #todo: expand this to provide more detail if a known good, human readable error comes back from Spreedly
